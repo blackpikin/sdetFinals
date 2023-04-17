@@ -8,11 +8,11 @@ const session = require('express-session')
 const {sess} = require('../session/session')
 
 // GET
-router.get('/',function(req,res){
+router.get('/', function(req,res){
     if(req.session.email === undefined){
-        res.sendFile(path.join(__dirname, '../views/index.html'))
+        res.status(200).sendFile(path.join(__dirname, '../views/index.html'))
     }else{
-        res.sendFile(path.join(__dirname, '../views/index2.html'))
+        res.status(200).sendFile(path.join(__dirname, '../views/index2.html'))
     }
 });
 

@@ -37,4 +37,11 @@ using a secure checkout system directly from their website.
 ### License ###
 
 ### Tests ###
+<<<<<<< HEAD
+=======
+* We used three npm packages to write tests: jest, supertest, and cross-env.
+jest: Jest is a framework for testing JavaScript code. Unit testing is the main usage of it.
+supertest: Using Supertest, we can test endpoints and routes on HTTP servers.
+cross-env: You can set environmental variables inline within a command using cross-env.
+>>>>>>> 9b1b2a2 (no node modules)
 

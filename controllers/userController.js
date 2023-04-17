@@ -35,7 +35,7 @@ function AddUser(req, res){
         }
         // rows added
         console.log(response.insertId);
-        res.send('<h2>Successful registration</h2><a href="/login">Login</a>');
+        res.status(201).send('<h2>Successful registration</h2><a href="/login">Login</a>');
     });
 }
 
@@ -75,7 +75,5 @@ function VerifyUser(req, res){
     });
     
 }
-
-
 
 module.exports = {AddUser, VerifyUser};
