@@ -1,8 +1,5 @@
 const mysql = require('mysql')
 const {pool} = require('../database/database')
-const session = require('express-session')
-const {sess} = require('../session/session')
-const path = require('path')
 const randomstring = require("randomstring")
 
 async function AutoBronzeDiscount(){

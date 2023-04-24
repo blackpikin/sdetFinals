@@ -1,8 +1,6 @@
 const mysql = require('mysql');
 const {pool} = require('../database/database');
 const { check } = require('express-validator');
-const session = require('express-session');
-const {sess} = require('../session/session');
  
 function AddUser(req, res){
     check('name')
@@ -34,7 +32,6 @@ function AddUser(req, res){
             return;
         }
         // rows added
-        console.log(response.insertId);
         res.status(201).send('<h2>Successful registration</h2><a href="/login">Login</a>');
     });
 }
@@ -62,14 +59,14 @@ function VerifyUser(req, res){
         }
         // rows fetch
         if(data[0] === undefined){
-            res.send('<h2>Unsuccessful login</h2><a href="/login">Login</a>');
+            res.status(200).send('<h2>Unsuccessful login</h2><a href="/login">Login</a>');
         }else{
             req.session.userid = data[0].id;
             req.session.name = data[0].name;
             req.session.email = data[0].email;
             req.session.phone = data[0].phone;
             req.session.date_created = data[0].date_created;
-            res.send('<h2>Successful login</h2><a href="/">View services</a>');
+            res.status(200).send('<h2>Successful login</h2><a href="/">View services</a>');
         }
         
     });

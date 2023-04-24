@@ -1,21 +1,40 @@
-const mysql = require('mysql')
-const {pool} = require('../database/database')
-const path = require('path')
 const request = require("supertest")
-const app = require("../routes/routes")
+const app = require("../server/app")
 
-
-describe("POST /Add user", () => {
-  it("should create a new user",  () => {
-    const res = request(app).post("/newUser").send({
-      name: "Test user name",
-      email: "test@example.com",
-      phone: "237670000000",
-      password: "12345678",
-      cpassword: "12345678"
-    });
-    console.log(res)
-    expect(res.statusCode).toBe(201)
-    expect(res.body.name).toBe("Test user name")
+describe("Get /Shows the Home page", () => {
+  test("Should show home", done => {
+    request(app)
+      .get("/")
+      .expect(200)
+      .end(done)
   })
 })
+
+describe("POST /Adds new User to DB", () => {
+  test("Adds a new user to DB", done => {
+    request(app)
+    .post("/newUser").send({
+      name: "Test Username",
+      email: "test@example.com",
+      phone: "670000111",
+      password: "password"
+    })
+    .expect(response => {
+        expect(response.status).toBe(201) 
+    })
+    .end(done)
+  })
+})
+
+describe("POST /Login", () => {
+  test("Verifies if User is in DB for login", done => {
+    request(app)
+      .post("/verifyUser").send({
+        email: "test@example.com",
+        password: "password"
+      })
+      .expect(200)
+      .end(done)
+  })
+})
+

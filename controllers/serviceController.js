@@ -1,7 +1,5 @@
 const mysql = require('mysql')
 const {pool} = require('../database/database')
-const session = require('express-session')
-const {sess} = require('../session/session')
 
 async function GetService(id){
     const promise = await new Promise((resolve, reject) => {

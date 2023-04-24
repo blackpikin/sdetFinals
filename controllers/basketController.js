@@ -1,13 +1,12 @@
 const mysql = require('mysql')
 const {pool} = require('../database/database')
+const path = require('path')
 const {GetService} = require('../controllers/serviceController')
 const {AutoBronzeDiscount, AutoDiamondDiscount, DiscountCodeAvailable} = require('../controllers/discountController')
-const session = require('express-session')
-const {sess} = require('../session/session')
-const path = require('path')
+
 
 async function AddToBasket(req, res) {
-    await RemoveOverdueItems() //Check if some items are overdue and remove them
+    let items_removed = await RemoveOverdueItems() //Check if some items are overdue and remove them
     const id = req.body.service_id
     if (await AtBasketLimit(req.session.userid) == false){
         let service = await GetService(id)
@@ -21,7 +20,7 @@ async function AddToBasket(req, res) {
                 return
             }
             // rows added
-            console.log(response.insertId)
+            //console.log(response.insertId)
             res.status(200).json({"status":"ok"})
         });
     }else{
@@ -150,7 +149,7 @@ function ShowBasketItems(req, res){
 }
 
 async function AtBasketLimit(userid){
-    await RemoveOverdueItems(); // Check if some items are overdue and remove them
+    let removed = await RemoveOverdueItems(); // Check if some items are overdue and remove them
     // Count the number of service id that are eligible for the discount
     const promise = await new Promise((resolve, reject) => {
         let selectQuery = 'SELECT COUNT(service_id) AS num FROM ?? WHERE ?? = ?'
@@ -261,7 +260,7 @@ async function Success(req, res) {
 
 async function RemoveOverdueItems(){
     const promise = await new Promise((resolve, reject) => {
-        let selectQuery = "SELECT id, code FROM ?? WHERE DATEDIFF(NOW(), date_added) > '7'" // 7days i.e a week
+        let selectQuery = "SELECT id, name FROM ?? WHERE DATEDIFF(NOW(), date_added) > '7'" // 7days i.e a week
         let query = mysql.format(selectQuery, ["basket"])
         pool.query(query, (err, data) => {
             if (err) {
@@ -287,6 +286,8 @@ async function RemoveOverdueItems(){
             })
         })
     }
+
+    return promise
 }
 
-module.exports = {AddToBasket, ShowBasketItems, CountBasketItems, RemoveBasketItem, Checkout, Success}
+module.exports = {AddToBasket, ShowBasketItems, CountBasketItems, RemoveBasketItem, Checkout, Success, RemoveOverdueItems, AtBasketLimit}

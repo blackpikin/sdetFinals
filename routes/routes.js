@@ -4,8 +4,6 @@ const router = express.Router()
 const {AddUser, VerifyUser} = require('../controllers/userController')
 const {AddToBasket, ShowBasketItems, CountBasketItems, RemoveBasketItem, Checkout, Success} = require('../controllers/basketController')
 const {GenerateDiscountCodes, ApplyCode} = require('../controllers/discountController')
-const session = require('express-session')
-const {sess} = require('../session/session')
 
 // GET
 router.get('/', function(req,res){

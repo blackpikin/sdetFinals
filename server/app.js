@@ -5,8 +5,6 @@ const {sess} = require('../session/session');
  
 app.use((session(sess)));
 const router = require('../routes/routes.js');
-//const host = process.env.HOST ||  'localhost';
-const port = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -14,6 +12,4 @@ app.use(express.urlencoded({
 }));
 app.use(router);
 
-app.listen(port, () => {
-    //console.log(`listening on port ${port}`);
-});
+module.exports = app
